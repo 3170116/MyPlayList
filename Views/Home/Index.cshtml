@@ -1,0 +1,49 @@
+﻿@model List<PlayList>
+
+@{
+    ViewData["Title"] = "Οι λίστες μου";
+}
+
+
+    @foreach (var item in Model)
+    {
+        <div class="card mg-b-1">
+            <div class="card-body">
+                <h5 class="card-title">
+                    @item.Title
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    @if (item.PlayListVideos.Count == 0)
+                    {
+                        <span>
+                            Η λίστα είναι άδεια
+                        </span>
+                    }
+                    else if (item.PlayListVideos.Count == 1)
+                    {
+                        <span>
+                            1 τραγούδι
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @item.PlayListVideos.Count τραγούδια
+                        </span>
+                    }
+                </h6>
+
+                <a href="@Url.Action("ViewList", "Home", new { listId = item.Id })" class="card-link">
+                    Επιλογή
+                </a>
+
+                <a href="@Url.Action("EditList", "Home", new { listId = item.Id })" class="card-link btn btn-outline-secondary">
+                    Επεξεργασία
+                </a>
+
+                <a href="@Url.Action("RemoveList", "Home", new { listId = item.Id })" class="card-link btn btn-danger">
+                    Διαγραφή
+                </a>
+            </div>
+        </div>
+    }

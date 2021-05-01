@@ -1,0 +1,72 @@
+﻿@model MyPlayList.ViewModels.BaseViewModel
+
+@{
+    ViewData["Title"] = Model.MyPlayList.Title;
+}
+
+
+    @if (!Model.MyVideos.Any())
+    {
+        <h5>
+            Η λίστα είναι άδεια.
+        </h5>
+    }
+
+<div class="row">
+
+    <div class="col-md-4 col-12">
+        <div class="form-group">
+            <a href="@Url.Action("EditVideo", "Home")" class="btn btn-success">
+                Προσθήκη
+            </a>
+        </div>
+
+        <div class="form-group">
+            @foreach (var video in Model.MyVideos.OrderBy(x => x.Title))
+            {
+                <div class="card mg-b-1">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="@Url.Action("ViewList", "Home", new { listId = Model.MyPlayList.Id, videoId = video.Id })" class="list-group-item list-group-item-secondary @(video.Selected ? "active" : "")">
+                                @video.Title
+                            </a>
+                        </h5>
+
+                        <a href="@Url.Action("EditVideo", "Home", new { videoId = video.Id })" class="btn btn-sm btn-outline-secondary">
+                            Επεξεργασία
+                        </a>
+
+                        <a href="@Url.Action("RemoveVideo", "Home", new { videoId = video.Id })" class="btn btn-sm btn-danger">
+                            Διαγραφή
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="col-md-8 col-12">
+
+        @if (Model.MyVideos.Any())
+        {
+            <iframe src="https://www.youtube.com/embed/@(Model.MyVideos.Single(x => x.Selected).YoutubeVideoId)?autoplay=1" allow="autoplay" style="width: 500px; height: 350px;">
+            </iframe>
+        }
+
+    </div>
+
+</div>
+    
+    
+<script type="text/javascript">
+
+    @if (Model.MyVideos.Any() && Model.MyVideos.Single(x => x.Selected).GetTotalSeconds() > 0)
+    {
+        <text>
+            setInterval(function () {
+                location.reload();
+            }, @Model.MyVideos.Single(x => x.Selected).GetTotalSeconds() * 1000);
+        </text>
+    }
+
+</script>

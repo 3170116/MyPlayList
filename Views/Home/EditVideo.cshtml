@@ -1,0 +1,80 @@
+﻿@model MyPlayList.ViewModels.BaseViewModel
+
+@{
+    ViewData["Title"] = "Νέο Τραγούδι";
+}
+
+    <h4>
+        Προσθήκη νέου τραγουδιού
+    </h4>
+
+    <form method="post" action="@Url.Action("EditVideo", "Home")">
+
+        @Html.HiddenFor(x => x.MyVideo.Id)
+
+        <div class="form-row">
+            <div class="col-12">
+                <label class="col-form-label">
+                    Youtube Video ID:
+                </label>
+                @Html.TextBoxFor(x => x.MyVideo.YoutubeVideoId, new { @class = "form-control col-md-3", @autocomplete = "off" })
+            </div>
+
+            <div class="col-12">
+                <label class="col-form-label">
+                    Τίτλος:
+                </label>
+                @Html.TextBoxFor(x => x.MyVideo.Title, new { @class = "form-control col-md-6", @autocomplete = "off" })
+            </div>
+        </div>
+    
+        <div class="form-row">
+
+            <div class="col-md-2">
+                <label class="col-form-label">
+                    Λεπτά:
+                </label>
+                @Html.DropDownListFor(x => x.MyVideo.MinutesToLoop, Video.GetMinutesList(Model.MyVideo.MinutesToLoop), new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-2">
+                <label class="col-form-label">
+                    Δευτερόλεπτα:
+                </label>
+                @Html.DropDownListFor(x => x.MyVideo.SecondsToLoop, Video.GetSecondsList(Model.MyVideo.MinutesToLoop), new { @class = "form-control" })
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                @{
+                    int i = 0;
+                }
+
+                <label class="col-form-label">
+                    Λίστες:
+                </label>
+
+                @foreach (var item in Model.MyPlayListItems)
+                {
+                    <div class="form-group form-check">
+                        @Html.HiddenFor(x => x.MyPlayListItems[i].Value)
+                        @Html.CheckBoxFor(x => x.MyPlayListItems[i].Selected, new { @class = "form-check-input" })
+                        <label class="form-check-label">
+                            @item.Text
+                        </label>
+                    </div>
+
+                    i += 1;
+                }
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 1em;">
+            <div class="col-12">
+                <input type="submit" class="btn btn-success" value="Αποθήκευση" />
+            </div>
+        </div>
+    
+    </form>

@@ -1,0 +1,30 @@
+﻿@model PlayList
+
+@{
+    ViewData["Title"] = "Νέα Λίστα";
+}
+
+    <h4>
+        Προσθήκη νέας λίστας
+    </h4>
+
+    <form method="post" action="@Url.Action("EditList", "Home")">
+
+        @Html.HiddenFor(x => x.Id)
+
+        <div class="form-row">
+            <div class="col-12">
+                <label class="col-form-label">
+                    Τίτλος:
+                </label>
+                @Html.TextBoxFor(x => x.Title, new { @class = "form-control col-md-3", @autocomplete = "off" })
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 1em;">
+            <div class="col-12">
+                <input type="submit" class="btn btn-success" value="Αποθήκευση" />
+            </div>
+        </div>
+
+    </form>
